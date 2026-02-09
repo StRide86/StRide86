@@ -6,7 +6,13 @@ import pandas as pd
 
 def raw_text_process_v1(text: Any) -> str:
     """Normalize raw text content for storage."""
-    if text is None or (isinstance(text, float) and pd.isna(text)):
+    if text is None:
+        return ""
+    try:
+        missing = pd.isna(text)
+    except Exception:
+        missing = False
+    if isinstance(missing, bool) and missing:
         return ""
 
     if not isinstance(text, str):

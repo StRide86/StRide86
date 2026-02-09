@@ -88,10 +88,15 @@ def _validate_table_name(table_name: str) -> str:
 
 
 def _is_missing(value: Any) -> bool:
+    if value is None:
+        return True
     try:
-        return bool(pd.isna(value))
+        missing = pd.isna(value)
     except Exception:
-        return value is None
+        return False
+    if isinstance(missing, bool):
+        return missing
+    return False
 
 
 def _maybe_string(value: Any) -> Optional[str]:
